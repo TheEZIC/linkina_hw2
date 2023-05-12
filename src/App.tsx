@@ -1,14 +1,17 @@
-import * as React from "react";
+import React, {useEffect} from "react";
 import * as ReactDOM from "react-dom/client";
 import { APP_TITLE } from "./constants/AppTitle";
 import {MantineProvider} from '@mantine/core';
 import "./index.scss";
-import {useEffect} from "react";
+import {database} from "./backend/Database";
+import {authService} from "./backend/Services/AuthService";
 
 const initDatabase = async () => {
-  console.log(window.API);
-  await window.API.start();
-  await window.API.authService.signIn("123", "321");
+  console.log(window.db, window.authService, "bd")
+  // await database.start()
+  // await authService.signIn("123", "123")
+  await window.db.start();
+  await window.authService.signIn("123", "321");
   console.log("success")
 }
 

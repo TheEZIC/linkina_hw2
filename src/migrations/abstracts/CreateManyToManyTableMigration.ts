@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm/browser";
+import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 import {ISingleTableMigration} from "../types/ISingleTableMigration";
 
 export abstract class CreateManyToManyTableMigration implements MigrationInterface, ISingleTableMigration {

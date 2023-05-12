@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm/browser"
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 import {CreateTableMigration} from "./abstracts/CreateTableMigration";
 
 export class createTaskResultTable1683746877875 extends CreateTableMigration implements MigrationInterface {

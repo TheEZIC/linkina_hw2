@@ -1,26 +1,24 @@
-import {Column, Entity, JoinTable, OneToOne} from "typeorm;
+import {PrimaryColumn, Entity, JoinTable, OneToOne} from "typeorm";
 import {StudentGroup} from "../StudentGroup.entity";
-import {Subject} from "typeorm/persistence/Subject";
+import {Subject} from "../Subject.entity";
 
 @Entity({
   name: "StudentGroupSubject",
 })
 export class StudentGroupSubject {
-  @Column({
+  @PrimaryColumn({
     name: "groupId",
     type: "integer",
     nullable: false,
   })
   @OneToOne(() => StudentGroup)
-  @JoinTable()
   group: StudentGroup;
 
-  @Column({
-    name: "subject",
+  @PrimaryColumn({
+    name: "subjectId",
     type: "integer",
     nullable: false,
   })
   @OneToOne(() => Subject)
-  @JoinTable()
   subject: Subject
 }

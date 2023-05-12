@@ -1,4 +1,4 @@
-import {QueryRunner} from "typeorm/browser";
+import {QueryRunner} from "typeorm";
 import {ISingleTableMigration} from "../types/ISingleTableMigration";
 
 export abstract class CreateTableMigration implements ISingleTableMigration {

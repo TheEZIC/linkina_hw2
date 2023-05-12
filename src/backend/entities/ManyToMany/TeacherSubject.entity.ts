@@ -1,4 +1,4 @@
-import {Column, Entity, JoinTable, OneToOne} from "typeorm/browser";
+import {PrimaryColumn, Entity, JoinTable, OneToOne} from "typeorm";
 import {User} from "../User.entity";
 import {Subject} from "../Subject.entity";
 
@@ -6,21 +6,19 @@ import {Subject} from "../Subject.entity";
   name: "TeacherSubject",
 })
 export class TeacherSubject {
-  @Column({
+  @PrimaryColumn({
     name: "teacherId",
     type: "integer",
     nullable: false,
   })
   @OneToOne(() => User)
-  @JoinTable()
   teacher: User;
 
-  @Column({
+  @PrimaryColumn({
     name: "subjectId",
     type: "integer",
     nullable: false,
   })
   @OneToOne(() => Subject)
-  @JoinTable()
   subject: Subject;
 }

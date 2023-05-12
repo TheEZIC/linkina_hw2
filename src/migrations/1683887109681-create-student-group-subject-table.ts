@@ -1,4 +1,4 @@
-import { MigrationInterface } from "typeorm/browser"
+import { MigrationInterface } from "typeorm";
 import {CreateManyToManyTableMigration} from "./abstracts/CreateManyToManyTableMigration";
 
 export class createStudentGroupSubjectTable1683887109681 extends CreateManyToManyTableMigration implements MigrationInterface {

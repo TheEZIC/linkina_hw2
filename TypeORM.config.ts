@@ -1,4 +1,14 @@
-import {DataSource, DataSourceOptions} from "typeorm/browser";
+import {DataSource, DataSourceOptions} from "typeorm";
+import {User} from "./src/backend/entities/User.entity";
+import {UserCredential} from "./src/backend/entities/UserCredential.entity";
+import {UserSocial} from "./src/backend/entities/UserSocial.entity";
+import {Subject} from "./src/backend/entities/Subject.entity";
+import {Task} from "./src/backend/entities/Task.entity";
+import {TaskResult} from "./src/backend/entities/TaskResult.entity";
+import {StudentGroup} from "./src/backend/entities/StudentGroup.entity";
+import {Message} from "./src/backend/entities/Message.entity";
+import {TeacherSubject} from "./src/backend/entities/ManyToMany/TeacherSubject.entity";
+import {StudentGroupSubject} from "./src/backend/entities/ManyToMany/StudentGroupSubject.entity";
 import {createUserTable1683744711160} from "./src/migrations/1683744711160-create-user-table";
 import {createUserCredentialTable1683745615003} from "./src/migrations/1683745615003-create-user-credential-table";
 import {createUserSocialTable1683745811039} from "./src/migrations/1683745811039-create-user-social-table";
@@ -18,7 +28,18 @@ import {
 export const OrmConfig: DataSourceOptions = {
   type: "better-sqlite3",
   database: "./db.sqlite",
-  entities: ["./*.entity.{js,ts}"],
+  entities: [
+    User,
+    UserCredential,
+    UserSocial,
+    Subject,
+    Task,
+    TaskResult,
+    StudentGroup,
+    Message,
+    TeacherSubject,
+    StudentGroupSubject,
+  ],
   migrations: [
     createUserTable1683744711160,
     createUserCredentialTable1683745615003,

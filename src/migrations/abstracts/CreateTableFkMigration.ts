@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, TableForeignKey} from "typeorm/browser";
+import {MigrationInterface, QueryRunner, TableForeignKey} from "typeorm";
 import {ISingleTableMigration} from "../types/ISingleTableMigration";
 import {IWithFkMigration} from "../types/IWithFkMigration";
 

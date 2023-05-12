@@ -1,4 +1,4 @@
-import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm/browser";
+import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./User.entity";
 
 @Entity({

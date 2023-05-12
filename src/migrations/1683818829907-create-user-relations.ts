@@ -1,4 +1,4 @@
-import {MigrationInterface, TableForeignKey} from "typeorm/browser"
+import {MigrationInterface, TableForeignKey} from "typeorm";
 import {CreateTableFkMigration} from "./abstracts/CreateTableFkMigration";
 
 export class createUserRelations1683818829907 extends CreateTableFkMigration implements MigrationInterface {

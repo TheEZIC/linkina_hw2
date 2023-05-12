@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm/browser";
+import {Column, Entity, ManyToOne, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, JoinColumn} from "typeorm";
 import {UserRole} from "../types";
 import {UserCredential} from "./UserCredential.entity";
 import {UserSocial} from "./UserSocial.entity";
@@ -34,21 +34,29 @@ export class User {
   })
   role: UserRole;
 
-  @Column({
+  @PrimaryColumn({
     type: "integer",
     name: "credentialId",
-    nullable: true,
   })
+  credentialId?: number;
+
   @OneToOne(() => UserCredential)
+  @JoinColumn({
+    name: "credentialId"
+  })
   credential?: UserCredential;
 
-  @Column({
+  @PrimaryColumn({
     type: "integer",
     name: "socialId",
-    nullable: true,
   })
+  socialId?: number;
+
   @OneToOne(() => UserSocial)
-  social?: UserSocial;
+  @JoinColumn({
+    name: "socialId",
+  })
+  social: UserSocial;
 
   @Column({
     type: "integer",
