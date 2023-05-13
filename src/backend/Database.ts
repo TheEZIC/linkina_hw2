@@ -1,15 +1,25 @@
 import DataSrc from "../../TypeORM.config";
 
 export const database = {
-  dataSource: DataSrc,
-  get isStarted() {
-    return this.dataSource.isInitialized;
+  getDataSource() {
+    return DataSrc;
+  },
+  isStarted() {
+    return database.getDataSource().isInitialized;
   },
   async start() {
-    await database.dataSource.initialize();
-    await database.dataSource.runMigrations();
+    if (database.isStarted()) {
+      return;
+    }
+
+    await database.getDataSource().initialize();
+    await database.getDataSource().runMigrations();
   },
   async stop() {
-    await this.dataSource.destroy();
+    if (!database.isStarted()) {
+      return;
+    }
+
+    await database.getDataSource().destroy();
   },
 };

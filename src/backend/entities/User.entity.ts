@@ -38,7 +38,7 @@ export class User {
     type: "integer",
     name: "credentialId",
   })
-  credentialId?: number;
+  private credentialId?: number;
 
   @OneToOne(() => UserCredential)
   @JoinColumn({
@@ -50,7 +50,7 @@ export class User {
     type: "integer",
     name: "socialId",
   })
-  socialId?: number;
+  private socialId?: number;
 
   @OneToOne(() => UserSocial)
   @JoinColumn({

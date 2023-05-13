@@ -1,12 +1,13 @@
 import {database} from "../Database";
 import {User} from "../entities/User.entity";
+import {BaseUser} from "../types/BaseUser";
 
 export const authService = {
-  get userRepository() {
-    return database.dataSource.getRepository(User);
+  getUserRepository() {
+    return database.getDataSource().getRepository(User);
   },
-  signIn(login: string, password: string): Promise<User | null> {
-    return authService.userRepository.findOne({
+  async signIn(login: string, password: string): Promise<BaseUser | null> {
+    const user = await authService.getUserRepository().findOne({
       where: {
         credential: {
           login,
@@ -17,9 +18,17 @@ export const authService = {
         credential: true,
       },
     });
+
+    if (!user) {
+      return null;
+    }
+
+    delete user.credential;
+
+    return user;
   },
   signUp(data: Omit<User, "id">): Promise<User> {
-    const user = authService.userRepository.create(data);
-    return authService.userRepository.save(user);
+    const user = authService.getUserRepository().create(data);
+    return authService.getUserRepository().save(user);
   }
 }

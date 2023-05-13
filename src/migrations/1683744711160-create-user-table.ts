@@ -26,6 +26,11 @@ export class createUserTable1683744711160 extends CreateTableMigration implement
           isNullable: false,
         },
         {
+          name: "role",
+          type: "text",
+          isNullable: false,
+        },
+        {
           name: "credentialId",
           type: "integer",
           isNullable: true,

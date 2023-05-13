@@ -1,10 +1,14 @@
-import {Database} from "./backend/Database";
-import {AuthService} from "./backend/Services/AuthService";
+import {database} from "./backend/Database";
+import {authService} from "./backend/Services/AuthService";
+
+type Test = typeof  database
 
 declare global {
   interface Window {
-    db: Database;
-    authService: AuthService;
+    API: {
+      db: typeof database;
+      authService: typeof authService;
+    }
   }
 }
 
