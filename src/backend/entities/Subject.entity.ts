@@ -39,12 +39,28 @@ export class Subject {
   @ManyToMany(() => User)
   @JoinTable({
     name: "TeacherSubject",
+    joinColumn: {
+      name: "teacherId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "subjectId",
+      referencedColumnName: "id",
+    },
   })
   teachers: User[];
 
   @ManyToMany(() => StudentGroup)
   @JoinTable({
     name: "StudentGroupSubject",
+    joinColumn: {
+      name: "groupId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "subjectId",
+      referencedColumnName: "id",
+    },
   })
-  studentGroups: StudentGroup[];
+  groups: StudentGroup[];
 }

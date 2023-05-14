@@ -1,4 +1,4 @@
-import {PrimaryColumn, Entity, JoinTable, OneToOne} from "typeorm";
+import {PrimaryColumn, Entity, JoinTable, OneToOne, JoinColumn} from "typeorm";
 import {StudentGroup} from "../StudentGroup.entity";
 import {Subject} from "../Subject.entity";
 
@@ -11,7 +11,13 @@ export class StudentGroupSubject {
     type: "integer",
     nullable: false,
   })
+
+  private groupId: number;
+
   @OneToOne(() => StudentGroup)
+  @JoinColumn({
+    name: "groupId"
+  })
   group: StudentGroup;
 
   @PrimaryColumn({
@@ -20,5 +26,11 @@ export class StudentGroupSubject {
     nullable: false,
   })
   @OneToOne(() => Subject)
-  subject: Subject
+  private subjectId: number;
+
+  @OneToOne(() => Subject)
+  @JoinColumn({
+    name: "subjectId"
+  })
+  subject: Subject;
 }

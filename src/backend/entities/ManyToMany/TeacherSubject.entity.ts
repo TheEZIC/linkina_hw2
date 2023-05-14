@@ -1,4 +1,4 @@
-import {PrimaryColumn, Entity, JoinTable, OneToOne} from "typeorm";
+import {PrimaryColumn, Entity, JoinTable, OneToOne, JoinColumn} from "typeorm";
 import {User} from "../User.entity";
 import {Subject} from "../Subject.entity";
 
@@ -11,14 +11,24 @@ export class TeacherSubject {
     type: "integer",
     nullable: false,
   })
+  private teacherId: number;
+
   @OneToOne(() => User)
-  teacher: User;
+  @JoinColumn({
+    name: "teacherId",
+  })
+  teacher:  User;
 
   @PrimaryColumn({
     name: "subjectId",
     type: "integer",
     nullable: false,
   })
+  private subjectId: Subject;
+
   @OneToOne(() => Subject)
+  @JoinColumn({
+    name: "subjectId",
+  })
   subject: Subject;
 }
