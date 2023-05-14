@@ -1,13 +1,15 @@
 import React, {useEffect} from "react";
 import * as ReactDOM from "react-dom/client";
-import { APP_TITLE } from "./constants/AppTitle";
 import {MantineProvider} from '@mantine/core';
+import {createHashRouter} from "react-router-dom";
+import {RouterProvider, useNavigate} from "react-router";
+import { APP_TITLE } from "./constants/AppTitle";
+import AuthForm from "./components/AuthForm";
+import MainSpinner from "./components/MainSpinner";
 import "./index.scss";
-import {RouterProvider} from "react-router";
-import {createBrowserRouter} from "react-router-dom";
 import {useUserStore} from "./stores/userStore";
 import {shallow} from "zustand/shallow";
-import AuthForm from "./components/AuthForm";
+import MainApp from "./components/MainApp";
 
 const Providers = () => {
   const [user] = useUserStore(
@@ -16,29 +18,40 @@ const Providers = () => {
   );
 
   useEffect(() => {
+    if (user) {
+      window.location.href = "main_window#/app";
+    } else {
+      window.location.href = "main_window#/auth";
+    }
+  }, [user]);
 
-  }, [user])
-
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     {
-      path: "/main_window/auth",
+      path: "/auth",
       index: !user ? true : undefined,
       element: <AuthForm/>
     },
     {
-      path: "/main_window/app",
+      path: "/app",
       index: user ? true : undefined,
-      element: <span>{user.firstName} {user.lastName}</span>
+      element: <MainApp />
+    },
+    {
+      path: "/",
+      element: <MainSpinner />
     },
     {
       path: "*",
       element: <></>,
-    }
+    },
   ]);
 
   return (
     <MantineProvider
-      theme={{ colorScheme: "light" }}
+      theme={{
+        colorScheme: "light",
+        // fontFamily: "Comic Sans MS, sans-serif",
+      }}
       withGlobalStyles
       withNormalizeCSS
     >
@@ -56,7 +69,7 @@ const initDatabase = async () => {
 };
 
 const initAppInterface = () => {
-  const container = document.querySelector<HTMLDivElement>("#app")!
+  const container = document.querySelector<HTMLDivElement>("#app")!;
   ReactDOM.createRoot(container).render(<Providers />);
 };
 

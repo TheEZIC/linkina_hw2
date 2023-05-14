@@ -1,13 +1,12 @@
-import {database} from "../Database";
 import {User} from "../entities/User.entity";
+import {UserCredential} from "../entities/UserCredential.entity";
 import {BaseUser} from "../types/BaseUser";
+import {repo} from "../Repo";
 
 export const authService = {
-  getUserRepository() {
-    return database.getDataSource().getRepository(User);
-  },
   async signIn(login: string, password: string): Promise<BaseUser | null> {
-    const user = await authService.getUserRepository().findOne({
+    const repository = repo.getForUser();
+    const user = await repository.findOne({
       where: {
         credential: {
           login,
@@ -27,8 +26,31 @@ export const authService = {
 
     return user;
   },
-  signUp(data: Omit<User, "id">): Promise<User> {
-    const user = authService.getUserRepository().create(data);
-    return authService.getUserRepository().save(user);
+  async signUp(userData: Omit<User, "id" | "role" | "credential" | "social">, userCredentials: Omit<UserCredential, "id">, email: string): Promise<BaseUser> {
+    const userRepository = repo.getForUser();
+    const credentialRepository = repo.getForUserCredential();
+    const socialRepository = repo.getForUserSocial();
+
+    const user = userRepository.create({
+      ...userData,
+      role: "student",
+    });
+
+    const credential = await credentialRepository.create(userCredentials);
+    const social = socialRepository.create({
+      email,
+    });
+
+    const dbCredential = await credentialRepository.save(credential);
+    const dbSocial = await socialRepository.save(social);
+
+    user.credential = dbCredential;
+    user.social = dbSocial;
+
+    const dbUser = await userRepository.save(user);
+
+    delete dbUser.credential;
+
+    return dbUser;
   }
 }

@@ -31,6 +31,4 @@ const initBackend = (obj: object, prevKey?: string) => {
 
 initBackend(backend);
 
-console.log(API, "api");
-
 contextBridge.exposeInMainWorld("API", API);

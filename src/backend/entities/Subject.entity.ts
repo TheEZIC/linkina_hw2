@@ -1,6 +1,7 @@
 import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Task} from "./Task.entity";
 import {User} from "./User.entity";
+import {StudentGroup} from "./StudentGroup.entity";
 
 @Entity({
   name: "Subject",
@@ -41,9 +42,9 @@ export class Subject {
   })
   teachers: User[];
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => StudentGroup)
   @JoinTable({
     name: "StudentGroupSubject",
   })
-  studentGroups: User[];
+  studentGroups: StudentGroup[];
 }
