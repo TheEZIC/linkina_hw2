@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Badge, Tabs} from "@mantine/core";
+import {Tabs} from "@mantine/core";
 import GroupsTab from "./Tabs/GroupsTab";
 import {useTabsStyles} from "../../styles/tabs.styles";
 import StudentsTab from "./Tabs/StudentsTab";
@@ -11,6 +11,7 @@ import {MdBackpack} from "react-icons/md";
 import {FaBook, FaGraduationCap} from "react-icons/fa";
 import {useSubjectsStore} from "../../stores/subjectsStore";
 import SubjectsTab from "./Tabs/SubjectsTab";
+import TabBadge from "../TabBadge";
 
 const AdminInterface = () => {
   const { classes } = useTabsStyles();
@@ -45,13 +46,14 @@ const AdminInterface = () => {
         <Tabs.Tab
           value={"groups"}
           icon={<BiGroup />}
-          rightSection={groups.length && <Badge variant={"filled"} size={"xs"}>{groups.length}</Badge>}
+          rightSection={<TabBadge data={groups} />}
         >
           Группы
         </Tabs.Tab>
         <Tabs.Tab
           value={"subjects"}
           icon={<FaBook />}
+          rightSection={<TabBadge data={subjects} />}
         >
           Предметы
         </Tabs.Tab>
@@ -64,7 +66,7 @@ const AdminInterface = () => {
         <Tabs.Tab
           value={"students"}
           icon={<MdBackpack />}
-          rightSection={students.length && <Badge variant={"filled"} size={"xs"}>{students.length}</Badge>}
+          rightSection={<TabBadge data={students} />}
         >
           Студенты
         </Tabs.Tab>

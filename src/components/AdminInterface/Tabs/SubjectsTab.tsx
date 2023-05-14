@@ -2,9 +2,10 @@ import React, {useCallback} from 'react';
 import DataTable from "../../DataTable";
 import {useSubjectsStore} from "../../../stores/subjectsStore";
 import {shallow} from "zustand/shallow";
-import {ActionIcon, Flex, Tooltip} from "@mantine/core";
+import {ActionIcon, Button, Flex, Tooltip} from "@mantine/core";
 import {AiOutlineUsergroupAdd} from "react-icons/ai";
 import {FaTimes} from "react-icons/fa";
+import Controls from "../../Controls";
 
 const SubjectsTab = () => {
   const [subjects, getAllSubjects] = useSubjectsStore(
@@ -43,6 +44,9 @@ const SubjectsTab = () => {
           <th></th>
         </tr>
       </DataTable>
+      <Controls>
+        <Button>Добавить предмет</Button>
+      </Controls>
     </>
   );
 };
