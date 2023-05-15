@@ -36,29 +36,37 @@ export class Subject {
   @OneToMany(() => Task, (task) => task.subject)
   tasks: Task[];
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, {
+    cascade: true,
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE",
+  })
   @JoinTable({
     name: "TeacherSubject",
     joinColumn: {
-      name: "teacherId",
+      name: "subjectId",
       referencedColumnName: "id",
     },
     inverseJoinColumn: {
-      name: "subjectId",
+      name: "teacherId",
       referencedColumnName: "id",
     },
   })
   teachers: User[];
 
-  @ManyToMany(() => StudentGroup)
+  @ManyToMany(() => StudentGroup, {
+    cascade: true,
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE",
+  })
   @JoinTable({
     name: "StudentGroupSubject",
     joinColumn: {
-      name: "groupId",
+      name: "subjectId",
       referencedColumnName: "id",
     },
     inverseJoinColumn: {
-      name: "subjectId",
+      name: "groupId",
       referencedColumnName: "id",
     },
   })

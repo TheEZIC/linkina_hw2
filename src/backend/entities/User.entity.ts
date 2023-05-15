@@ -1,8 +1,18 @@
-import {Column, Entity, ManyToOne, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, JoinColumn} from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  ManyToMany, JoinTable
+} from "typeorm";
 import {UserRole} from "../types";
 import {UserCredential} from "./UserCredential.entity";
 import {UserSocial} from "./UserSocial.entity";
 import {StudentGroup} from "./StudentGroup.entity";
+import {Subject} from "./Subject.entity";
 
 @Entity({
   name: "User",

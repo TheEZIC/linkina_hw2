@@ -4,15 +4,17 @@ import {useDisclosure} from "@mantine/hooks";
 import Controls from "../../Controls";
 import {useGroupsStore} from "../../../stores/groupsStore";
 import {shallow} from "zustand/shallow";
-import GroupForm, {GroupSaveData, OnGroupSaveCallback} from "../Forms/GroupForm";
+import GroupForm from "../Forms/GroupForm";
 import {StudentGroup} from "../../../backend/entities/StudentGroup.entity";
 import {FaPen, FaTimes} from "react-icons/fa";
 import DataTable from "../../DataTable";
+import {SaveEditCallback} from "../../../types/SaveEditFormProps";
+import {BaseStudentGroup} from "../../../backend/types";
 
 const GroupsTab = () => {
   const [groupFormOpened, { open: openGroupForm, close: closeGroupForm }] = useDisclosure(false);
   const [formTitle, setFormTitle] = useState<string>("");
-  const [onSaveCallback, setOnSaveCallback] = useState<OnGroupSaveCallback>();
+  const [onSaveCallback, setOnSaveCallback] = useState<SaveEditCallback<BaseStudentGroup>>();
   const [currentGroup, setCurrentGroup] = useState<StudentGroup>();
 
   const [groups, getAll] = useGroupsStore(
@@ -21,20 +23,24 @@ const GroupsTab = () => {
   );
 
   const openAddForm = () => {
+    const callback: SaveEditCallback<BaseStudentGroup> = async (groupData) => {
+      await window.API.studentGroupService.create(groupData);
+    };
+
     setCurrentGroup(undefined);
     setFormTitle("Создание группы");
-    setOnSaveCallback(() => async (groupData: GroupSaveData) => {
-      await window.API.studentGroupService.create(groupData);
-    });
+    setOnSaveCallback(() => callback);
     openGroupForm();
   };
 
   const openEditForm = (group: StudentGroup) => {
+    const callback: SaveEditCallback<BaseStudentGroup> = async (groupData) => {
+      await window.API.studentGroupService.update(group.id, groupData);
+    };
+
     setCurrentGroup(group);
     setFormTitle("Редактирование группы");
-    setOnSaveCallback(() => async (groupData: GroupSaveData) => {
-      await window.API.studentGroupService.update(group.id, groupData);
-    });
+    setOnSaveCallback(() => callback);
     openGroupForm();
   };
 
@@ -98,7 +104,7 @@ const GroupsTab = () => {
         title={formTitle}
         opened={groupFormOpened}
         close={closeGroupForm}
-        initialValues={currentGroup}
+        data={currentGroup}
         onSave={onSaveCallback}
       />
     </>

@@ -11,12 +11,11 @@ export class StudentGroupSubject {
     type: "integer",
     nullable: false,
   })
-
-  private groupId: number;
+  groupId: number;
 
   @OneToOne(() => StudentGroup)
   @JoinColumn({
-    name: "groupId"
+    name: "groupId",
   })
   group: StudentGroup;
 
@@ -25,12 +24,11 @@ export class StudentGroupSubject {
     type: "integer",
     nullable: false,
   })
-  @OneToOne(() => Subject)
-  private subjectId: number;
+  subjectId: number;
 
   @OneToOne(() => Subject)
   @JoinColumn({
-    name: "subjectId"
+    name: "subjectId",
   })
   subject: Subject;
 }

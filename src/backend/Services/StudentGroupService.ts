@@ -1,12 +1,9 @@
-import {database} from "../Database";
-import {StudentGroup} from "../entities/StudentGroup.entity";
+import {repo} from "../Repo";
+import {BaseStudentGroup} from "../types";
 
 export const studentGroupService = {
-  getStudentGroupRepository() {
-    return database.getDataSource().getRepository(StudentGroup);
-  },
   getAll() {
-    const repository = studentGroupService.getStudentGroupRepository();
+    const repository = repo.getForStudentGroup();
 
     return repository.find({
       relations: {
@@ -14,14 +11,14 @@ export const studentGroupService = {
       },
     });
   },
-  create(groupData: Omit<StudentGroup, "id" | "students">) {
-    const repository = studentGroupService.getStudentGroupRepository();
+  create(groupData: BaseStudentGroup) {
+    const repository = repo.getForStudentGroup();
     const group = repository.create(groupData);
 
     return repository.save(group);
   },
-  update(groupId: number, groupData: Partial<Omit<StudentGroup, "id" | "students">>) {
-    const repository = studentGroupService.getStudentGroupRepository();
+  update(groupId: number, groupData: BaseStudentGroup) {
+    const repository = repo.getForStudentGroup();
     const group = repository.create({
       id: groupId,
       ...groupData,
@@ -30,7 +27,8 @@ export const studentGroupService = {
     return repository.save(group);
   },
   delete(groupId: number) {
-    const repository = studentGroupService.getStudentGroupRepository();
+    const repository = repo.getForStudentGroup();
+
     return repository.delete(groupId);
   }
 };

@@ -12,6 +12,7 @@ import {FaBook, FaGraduationCap} from "react-icons/fa";
 import {useSubjectsStore} from "../../stores/subjectsStore";
 import SubjectsTab from "./Tabs/SubjectsTab";
 import TabBadge from "../TabBadge";
+import {useTeachersStore} from "../../stores/teachersStore";
 
 const AdminInterface = () => {
   const { classes } = useTabsStyles();
@@ -31,10 +32,16 @@ const AdminInterface = () => {
     shallow
   );
 
+  const [teachers, getAllTeachers] = useTeachersStore(
+    (state) => [state.teachers, state.getAll],
+    shallow
+  );
+
   useEffect(() => {
     getAllGroups();
     getAllStudents();
     getAllSubjects();
+    getAllTeachers();
   }, []);
 
   return (

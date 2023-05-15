@@ -11,9 +11,11 @@ export class TeacherSubject {
     type: "integer",
     nullable: false,
   })
-  private teacherId: number;
+  teacherId: number;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, {
+    cascade: true,
+  })
   @JoinColumn({
     name: "teacherId",
   })
@@ -24,9 +26,11 @@ export class TeacherSubject {
     type: "integer",
     nullable: false,
   })
-  private subjectId: Subject;
+  subjectId: number;
 
-  @OneToOne(() => Subject)
+  @OneToOne(() => Subject, {
+    cascade: true,
+  })
   @JoinColumn({
     name: "subjectId",
   })

@@ -1,19 +1,10 @@
 import {repo} from "../Repo";
 import {In} from "typeorm";
+import {userService} from "./UserService";
 
 export const studentService = {
   getAll() {
-    const repository = repo.getForUser();
-
-    return repository.find({
-      where: {
-        role: "student",
-      },
-      relations: {
-        social: true,
-        group: true,
-      },
-    });
+    return userService.getByRole("student");
   },
   async setGroup(studentIds: number[], groupId?: number) {
     const userRepository = repo.getForUser();

@@ -1,28 +1,30 @@
-import React, {FC, memo, useCallback, useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
+import {Button, Flex, Modal, TextInput} from "@mantine/core";
 import {FormBaseProps} from "../../../types/FormBaseProps";
 import {useForm} from "@mantine/form";
-import {useGroupsStore} from "../../../stores/groupsStore";
+import {SaveEditFormProps} from "../../../types/SaveEditFormProps";
+import {BaseSubject} from "../../../backend/types";
+import {useSubjectsStore} from "../../../stores/subjectsStore";
 import {shallow} from "zustand/shallow";
-import {Button, Flex, Modal, TextInput} from "@mantine/core";
-import {SaveEditFormProps} from "../../../types";
-import {BaseStudentGroup} from "../../../backend/types";
 
-type GroupFormType = {
+type SubjectFormType = {
   title: string;
+  description: string;
   semester: number;
 };
 
-export type GroupFormProps = FormBaseProps & SaveEditFormProps<BaseStudentGroup>;
+export type SubjectFormProps = FormBaseProps & SaveEditFormProps<BaseSubject>;
 
-const GroupForm: FC<GroupFormProps> = memo(({
+const SubjectForm: FC<SubjectFormProps> = ({
   title,
   data,
   opened,
   close,
   onSave,
 }) => {
-  const form = useForm<GroupFormType>();
-  const [getAll] = useGroupsStore(
+  const form = useForm<SubjectFormType>();
+
+  const [getAll] = useSubjectsStore(
     (state) => [state.getAll],
     shallow
   );
@@ -30,12 +32,15 @@ const GroupForm: FC<GroupFormProps> = memo(({
   useEffect(() => {
     form.setValues({
       title: data?.title ?? "",
+      description: data?.description ?? "",
       semester: data?.semester ?? 0,
     });
-  }, [data, opened]);
+  }, [opened, data]);
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = async () => {
     const { title, semester } = form.values;
+
+    console.log(form.values, onSave, "form values");
 
     if (!title || !semester) {
       return;
@@ -44,7 +49,7 @@ const GroupForm: FC<GroupFormProps> = memo(({
     await onSave?.(form.values);
     getAll();
     close();
-  }, [form]);
+  };
 
   return (
     <Modal
@@ -59,14 +64,21 @@ const GroupForm: FC<GroupFormProps> = memo(({
       <form onSubmit={form.onSubmit(onSubmit)}>
         <Flex direction={"column"} gap={"sm"}>
           <TextInput
-            label={"Название группы"}
+            label={"Название предмета"}
             placeholder={"Введите название группы"}
             withAsterisk={true}
             required={true}
             {...form.getInputProps("title")}
           />
           <TextInput
-            label={"Введите семестр группы"}
+            label={"Описание предмета"}
+            placeholder={"Введите описание предмета"}
+            withAsterisk={true}
+            required={true}
+            {...form.getInputProps("description")}
+          />
+          <TextInput
+            label={"Введите семестр предмета"}
             placeholder={"Введите семестр группы"}
             withAsterisk={true}
             required={true}
@@ -79,6 +91,6 @@ const GroupForm: FC<GroupFormProps> = memo(({
       </form>
     </Modal>
   );
-});
+};
 
-export default GroupForm;
+export default SubjectForm;

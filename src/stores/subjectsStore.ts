@@ -10,6 +10,7 @@ export const useSubjectsStore = create<SubjectsStore>((set) => ({
   subjects: [],
   async getAll() {
     const subjects = await window.API.subjectService.getAll();
+    console.log(subjects, "subjects")
     set({ subjects });
   },
   async clean() {

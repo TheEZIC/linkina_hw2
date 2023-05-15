@@ -1,5 +1,6 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./User.entity";
+import {Subject} from "./Subject.entity";
 
 @Entity({
   name: "StudentGroup",

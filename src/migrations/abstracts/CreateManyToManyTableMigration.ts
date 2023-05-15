@@ -12,6 +12,8 @@ export abstract class CreateManyToManyTableMigration implements MigrationInterfa
       columnNames: [this.column1RefName],
       referencedTableName: this.table1RefName,
       referencedColumnNames: ["id"],
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     });
   }
 
@@ -23,7 +25,9 @@ export abstract class CreateManyToManyTableMigration implements MigrationInterfa
       columnNames: [this.column2RefName],
       referencedTableName: this.table2RefName,
       referencedColumnNames: ["id"],
-    })
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
+    });
   }
 
   public async up(queryRunner: QueryRunner): Promise<void> {

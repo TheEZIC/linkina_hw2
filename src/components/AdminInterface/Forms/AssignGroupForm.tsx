@@ -6,6 +6,7 @@ import {BaseUser} from "../../../backend/types/BaseUser";
 import {useStudentsStore} from "../../../stores/studentsStore";
 import {shallow} from "zustand/shallow";
 import {useGroupsStore} from "../../../stores/groupsStore";
+import {useGroupsOptions} from "../../../hooks/useGroupsOptions";
 
 type AssignGroupFormType = {
   groupId: string;
@@ -57,13 +58,7 @@ const AssignGroupForm: FC<AssignGroupFormProps> = memo(({ opened, close, student
     close();
   };
 
-  const getOptions = () => [
-    { label: "Не установлена", value: "0" },
-    ...groups.map((g) => ({
-      label: `${g.title} (${g.semester} семестр)`,
-      value: String(g.id),
-    })),
-  ];
+  const options = useGroupsOptions();
 
   return (
     <Modal
@@ -78,7 +73,7 @@ const AssignGroupForm: FC<AssignGroupFormProps> = memo(({ opened, close, student
       <form onSubmit={form.onSubmit(onSubmit)} style={{ height: "400px" }}>
         <Flex direction={"column"} gap={"sm"} pos={"relative"} h={"100%"}>
           <Select
-            data={getOptions()}
+            data={options}
             label={"Выберите группу студента"}
             placeholder={"Выберите группу студента"}
             searchable={true}
