@@ -9,7 +9,7 @@ import {BaseUser} from "../../../backend/types/BaseUser";
 import {FaTimes} from "react-icons/fa";
 import DataTable from "../../DataTable";
 
-const StudentsTab = () => {
+const AdminStudentsTab = () => {
   const [assignGroupOpened, { open: openAssignGroup, close: closeAssignGroup }] = useDisclosure(false);
   const [currentStudent, setCurrentStudent] = useState<BaseUser>();
 
@@ -85,4 +85,4 @@ const StudentsTab = () => {
   );
 };
 
-export default StudentsTab;
+export default AdminStudentsTab;

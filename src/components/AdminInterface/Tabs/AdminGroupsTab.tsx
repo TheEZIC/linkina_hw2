@@ -11,7 +11,7 @@ import DataTable from "../../DataTable";
 import {SaveEditCallback} from "../../../types/SaveEditFormProps";
 import {BaseStudentGroup} from "../../../backend/types";
 
-const GroupsTab = () => {
+const AdminGroupsTab = () => {
   const [groupFormOpened, { open: openGroupForm, close: closeGroupForm }] = useDisclosure(false);
   const [formTitle, setFormTitle] = useState<string>("");
   const [onSaveCallback, setOnSaveCallback] = useState<SaveEditCallback<BaseStudentGroup>>();
@@ -111,4 +111,4 @@ const GroupsTab = () => {
   );
 };
 
-export default GroupsTab;
+export default AdminGroupsTab;

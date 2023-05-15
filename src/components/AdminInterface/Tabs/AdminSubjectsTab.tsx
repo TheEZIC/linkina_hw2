@@ -12,7 +12,7 @@ import {BaseSubject} from "../../../backend/types";
 import {Subject} from "../../../backend/entities/Subject.entity";
 import AssignToSubjectForm from "../Forms/AssignToSubjectForm";
 
-const SubjectsTab = () => {
+const AdminSubjectsTab = () => {
   const [subjectFormOpened, { open: openSubjectForm, close: closeSubjectForm }] = useDisclosure(false);
   const [assignOpened, { open: openAssign, close: closeAssign }] = useDisclosure(false);
 
@@ -149,4 +149,4 @@ const SubjectsTab = () => {
   );
 };
 
-export default SubjectsTab;
+export default AdminSubjectsTab;
