@@ -23,7 +23,7 @@ type AssignFunction = (ids: number[], subjectId: number, remove: boolean) => Pro
 
 const assignToSubject = async (currentIds: number[], ids: number[], subjectId: number, assignFunction: AssignFunction) => {
   const idsToAdd = ids.filter((id) => !currentIds.includes(id));
-  const idsToRemove = ids.filter((id) => currentIds.includes(id));
+  const idsToRemove = currentIds.filter((id) => !ids.includes(id));
 
   console.table({currentIds, ids, idsToAdd, idsToRemove});
 
@@ -81,22 +81,22 @@ const AssignToSubjectForm: FC<AssignToSubjectFormProps> = ({
     const teachersIdsNumber = teachersIds.map((id) => Number(id));
     const groupsIdsNumber = groupsIds.map((id) => Number(id));
 
-    await window.API.subjectService.assignTeachers(teachersIdsNumber, subject.id);
-    await window.API.subjectService.assignGroups(groupsIdsNumber, subject.id);
+    // await window.API.subjectService.assignTeachers(teachersIdsNumber, subject.id);
+    // await window.API.subjectService.assignGroups(groupsIdsNumber, subject.id);
 
-    // await assignToSubject(
-    //   subject.teachers.map((t) => t.id),
-    //   teachersIdsNumber,
-    //   subject.id,
-    //   window.API.subjectService.assignTeachers,
-    // );
-    //
-    // await assignToSubject(
-    //   subject.groups.map((g) => g.id),
-    //   groupsIdsNumber,
-    //   subject.id,
-    //   window.API.subjectService.assignGroups,
-    // );
+    await assignToSubject(
+      subject.teachers.map((t) => t.id),
+      teachersIdsNumber,
+      subject.id,
+      window.API.subjectService.assignTeachers,
+    );
+
+    await assignToSubject(
+      subject.groups.map((g) => g.id),
+      groupsIdsNumber,
+      subject.id,
+      window.API.subjectService.assignGroups,
+    );
 
     getAllSubjects();
     getAllTeachers();

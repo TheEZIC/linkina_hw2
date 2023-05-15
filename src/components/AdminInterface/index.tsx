@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {Tabs} from "@mantine/core";
-import GroupsTab from "./Tabs/GroupsTab";
+import AdminGroupsTab from "./Tabs/AdminGroupsTab";
 import {useTabsStyles} from "../../styles/tabs.styles";
-import StudentsTab from "./Tabs/StudentsTab";
+import AdminStudentsTab from "./Tabs/AdminStudentsTab";
 import {useGroupsStore} from "../../stores/groupsStore";
 import {shallow} from "zustand/shallow";
 import {useStudentsStore} from "../../stores/studentsStore";
@@ -10,7 +10,7 @@ import {BiGroup} from "react-icons/bi";
 import {MdBackpack} from "react-icons/md";
 import {FaBook, FaGraduationCap} from "react-icons/fa";
 import {useSubjectsStore} from "../../stores/subjectsStore";
-import SubjectsTab from "./Tabs/SubjectsTab";
+import AdminSubjectsTab from "./Tabs/AdminSubjectsTab";
 import TabBadge from "../TabBadge";
 import {useTeachersStore} from "../../stores/teachersStore";
 
@@ -80,11 +80,11 @@ const AdminInterface = () => {
       </Tabs.List>
 
       <Tabs.Panel value={"groups"} pt="xs">
-        <GroupsTab />
+        <AdminGroupsTab />
       </Tabs.Panel>
 
       <Tabs.Panel value={"subjects"} pt="xs">
-        <SubjectsTab />
+        <AdminSubjectsTab />
       </Tabs.Panel>
 
       <Tabs.Panel value={"teachers"} pt="xs">
@@ -92,7 +92,7 @@ const AdminInterface = () => {
       </Tabs.Panel>
 
       <Tabs.Panel value={"students"} pt="xs">
-        <StudentsTab />
+        <AdminStudentsTab />
       </Tabs.Panel>
     </Tabs>
   );

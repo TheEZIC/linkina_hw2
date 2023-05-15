@@ -46,8 +46,10 @@ export const subjectService = {
     if (!remove) {
       subject.groups.push(...dbGroups);
     } else {
-      subject.groups = subject.groups.filter((g) => !groupsIds.includes(g.id));
+      subject.groups = subject.groups.filter((g) => groupsIds.includes(g.id));
     }
+
+    console.log(subject, groupsIds, remove, "subject groups");
 
     await subjectRepository.save(subject);
   },
@@ -74,8 +76,10 @@ export const subjectService = {
     if (!remove) {
       subject.teachers.push(...dbUsers);
     } else {
-      subject.teachers = subject.teachers.filter((s) => !teachersIds.includes(s.id));
+      subject.teachers = subject.teachers.filter((s) => teachersIds.includes(s.id));
     }
+
+    console.log(subject, teachersIds, remove, "subject teachers");
 
     await subjectRepository.save(subject);
   },
