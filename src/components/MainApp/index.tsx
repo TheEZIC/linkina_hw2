@@ -3,7 +3,7 @@ import Layout from "../Layout";
 import {useUserStore} from "../../stores/userStore";
 import {shallow} from "zustand/shallow";
 import AdminInterface from "../AdminInterface";
-import Index from "../SubjectList";
+import SubjectList from "../SubjectList";
 
 const MainApp = () => {
   const [user] = useUserStore(
@@ -19,7 +19,7 @@ const MainApp = () => {
       case "student":
         return <></>;
       case "teacher":
-        return <Index />;
+        return <SubjectList />;
       case "admin":
         return <AdminInterface />
     }

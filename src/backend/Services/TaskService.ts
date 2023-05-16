@@ -10,53 +10,43 @@ export const taskService = {
     const taskResultRepository = repo.getForTaskResult();
     const subjectRepository = repo.getForSubject();
 
-    const dbSubject = await subjectRepository.findOne({
-      where: {
-        id: subjectId,
-      },
-      relations: {
-        tasks: {
-          results: true,
+    await database.getDataSource().transaction(async () => {
+      const dbSubject = await subjectRepository.findOne({
+        where: {
+          id: subjectId,
         },
-        groups: {
-          students: true,
+        relations: {
+          tasks: {
+            results: true,
+          },
+          groups: {
+            students: true,
+          },
+          teachers: true,
         },
-        teachers: true,
-      },
-    });
+      });
 
-    const students: User[] = dbSubject.groups.map((g) => g.students).flat(2);
-    const teachers = [...dbSubject.teachers];
+      const students = dbSubject.groups.map((g) => g.students).flat(2);
+      const task = await taskRepository.save({
+        ...taskData,
+        subject: dbSubject,
+      });
 
-    // IDK why TypeORM deletes all relations if provide same value (array) as before in relation
-    // So I decided to delete relation arrays before save
-    delete dbSubject.groups;
-    delete dbSubject.teachers;
+      const results: Partial<TaskResult>[] = [];
 
-    let task = taskRepository.create(taskData);
-    const results: TaskResult[] = [];
-
-    for (const teacher of teachers) {
-      for (const student of students) {
-        const taskResult = taskResultRepository.create({
-          teacher,
-          student,
-          task,
-          status: "",
-        });
-
-        results.push(taskResult);
+      for (const teacher of dbSubject.teachers) {
+        for (const student of students) {
+          results.push({
+            teacher,
+            task,
+            student,
+            status: "",
+          });
+        }
       }
-    }
 
-    task = taskRepository.create({
-      ...task,
-      results,
+      await taskResultRepository.save(results);
     });
-
-    dbSubject.tasks = [...dbSubject.tasks, task];
-
-    await database.getDataSource().manager.save(dbSubject);
   },
   getAllForSubject(subjectId: number) {
     console.log(subjectId, "subject id")
