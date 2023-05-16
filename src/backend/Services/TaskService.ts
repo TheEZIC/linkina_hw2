@@ -2,6 +2,7 @@ import {BaseTask} from "../types/BaseTask";
 import {repo} from "../Repo";
 import {User} from "../entities/User.entity";
 import {TaskResult} from "../entities/TaskResult.entity";
+import {database} from "../Database";
 
 export const taskService = {
   async create(subjectId: number, taskData: BaseTask) {
@@ -32,9 +33,7 @@ export const taskService = {
     delete dbSubject.groups;
     delete dbSubject.teachers;
 
-    const task = taskRepository.create(taskData);
-    const dbTask = await taskRepository.save(task);
-
+    let task = taskRepository.create(taskData);
     const results: TaskResult[] = [];
 
     for (const teacher of teachers) {
@@ -42,7 +41,7 @@ export const taskService = {
         const taskResult = taskResultRepository.create({
           teacher,
           student,
-          task: dbTask,
+          task,
           status: "",
         });
 
@@ -50,11 +49,14 @@ export const taskService = {
       }
     }
 
-    const dbResults = await taskResultRepository.save(results);
-    dbTask.results = dbResults;
-    dbSubject.tasks = [...dbSubject.tasks, dbTask];
+    task = taskRepository.create({
+      ...task,
+      results,
+    });
 
-    await subjectRepository.save(dbSubject);
+    dbSubject.tasks = [...dbSubject.tasks, task];
+
+    await database.getDataSource().manager.save(dbSubject);
   },
   getAllForSubject(subjectId: number) {
     console.log(subjectId, "subject id")

@@ -9,8 +9,6 @@ export class createMessageRelations1683825286528 extends CreateTableFkMigration 
       columnNames: ["taskResultId"],
       referencedTableName: "TaskResult",
       referencedColumnNames: ["id"],
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
     }),
     new TableForeignKey({
       columnNames: ["authorId"],

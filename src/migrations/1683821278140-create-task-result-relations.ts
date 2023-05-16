@@ -9,8 +9,6 @@ export class createTaskResultRelations1683821278140 extends CreateTableFkMigrati
       columnNames: ["taskId"],
       referencedTableName: "Task",
       referencedColumnNames: ["id"],
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
     }),
     new TableForeignKey({
       columnNames: ["studentId"],
