@@ -26,6 +26,16 @@ export class createTaskResultTable1683746877875 extends CreateTableMigration imp
           isNullable: true,
         },
         {
+          name: "teacherId",
+          type: "integer",
+          isNullable: true,
+        },
+        {
+          name: "studentId",
+          type: "integer",
+          isNullable: true,
+        },
+        {
           name: "taskId",
           type: "integer",
           isNullable: true,

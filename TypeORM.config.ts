@@ -28,6 +28,7 @@ import {
 export const OrmConfig: DataSourceOptions = {
   type: "better-sqlite3",
   database: "./db.sqlite",
+  logging: true,
   entities: [
     User,
     UserCredential,

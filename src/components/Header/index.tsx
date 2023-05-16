@@ -1,8 +1,14 @@
-import React from "react";
-import {ActionIcon, createStyles, Flex, Text} from "@mantine/core";
+import React, {FC} from "react";
+import {ActionIcon, createStyles, Flex, Text, Tooltip} from "@mantine/core";
 import {useUserStore} from "../../stores/userStore";
 import {shallow} from "zustand/shallow";
 import {BiLogOut} from "react-icons/bi";
+import {useNavigate} from "react-router";
+import {FaArrowLeft} from "react-icons/fa";
+
+export type HeaderProps = {
+  renderBackBtn?: boolean;
+};
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -14,7 +20,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header: FC<HeaderProps> = ({ renderBackBtn = false }) => {
+  const navigate = useNavigate();
   const { classes } = useStyles();
   const [user, removeUser] = useUserStore(
     (state) => [state.user, state.removeUser],
@@ -23,17 +30,29 @@ const Header = () => {
 
   return (
     <Flex className={classes.header} px={"sm"}>
-      <Text>{user.role}</Text>
-      <Flex>
+      <Flex gap={"sm"}>
+        {renderBackBtn && <Tooltip label={"Назад"}>
+          <ActionIcon
+            variant={"filled"}
+            color={"purple.5"}
+            onClick={() => navigate(-1)}
+          >
+            <FaArrowLeft/>
+          </ActionIcon>
+        </Tooltip>}
+        <Text>{user.role}</Text>
+      </Flex>
+      <Flex gap={"sm"}>
         <Text>{user.firstName} {user.lastName}</Text>
-        <ActionIcon
-          variant={"filled"}
-          color={"blue.8"}
-          ml={"sm"}
-          onClick={() => removeUser()}
-        >
-          <BiLogOut/>
-        </ActionIcon>
+        <Tooltip label={"Выйти с аккаунта"}>
+          <ActionIcon
+            variant={"filled"}
+            color={"blue.8"}
+            onClick={() => removeUser()}
+          >
+            <BiLogOut />
+          </ActionIcon>
+        </Tooltip>
       </Flex>
     </Flex>
   );

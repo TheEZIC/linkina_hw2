@@ -33,6 +33,8 @@ export class Task {
   @ManyToOne(() => Subject, (subject) => subject.tasks)
   subject?: Subject;
 
-  @OneToMany(() => TaskResult, (result) => result.task)
+  @OneToMany(() => TaskResult, (result) => result.task, {
+    cascade: true,
+  })
   results: TaskResult[];
 }

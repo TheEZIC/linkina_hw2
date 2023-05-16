@@ -1,6 +1,6 @@
 import {repo} from "../Repo";
 import {BaseSubject} from "../types";
-import {In} from "typeorm";
+import {In, Not} from "typeorm";
 
 export const subjectService = {
   getAll() {
@@ -16,6 +16,24 @@ export const subjectService = {
       },
     });
   },
+  getById(subjectId: number) {
+    const repository = repo.getForSubject();
+
+    return repository.findOne({
+      where: {
+        id: subjectId,
+      },
+      relations: {
+        teachers: true,
+        tasks: {
+          results: true,
+        },
+        groups: {
+          students: true,
+        },
+      },
+    });
+  },
   create(subjectData: BaseSubject) {
     const repository = repo.getForSubject();
     const subject = repository.create(subjectData);
@@ -25,6 +43,7 @@ export const subjectService = {
   async assignGroups(groupsIds: number[], subjectId: number, remove = false) {
     const subjectRepository = repo.getForSubject();
     const groupRepository = repo.getForStudentGroup();
+    const taskResultRepository = repo.getForTaskResult()
 
     let dbGroups = await groupRepository.find({
       where: {

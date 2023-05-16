@@ -10,6 +10,34 @@ import "./index.scss";
 import {useUserStore} from "./stores/userStore";
 import {shallow} from "zustand/shallow";
 import MainApp from "./components/MainApp";
+import SubjectPage from "./components/SubjectPage";
+
+const router = createHashRouter([
+  {
+    path: "/auth",
+    element: <AuthForm/>
+  },
+  {
+    path: "/app",
+    element: <MainApp />
+  },
+  {
+    path: "/subject/:id",
+    element: <SubjectPage />
+  },
+  {
+    path: "/task/:id",
+    element: <span>task</span>
+  },
+  {
+    path: "/",
+    element: <MainSpinner />
+  },
+  {
+    path: "*",
+    element: <></>,
+  },
+]);
 
 const Providers = () => {
   const [user] = useUserStore(
@@ -24,27 +52,6 @@ const Providers = () => {
       window.location.href = "main_window#/auth";
     }
   }, [user]);
-
-  const router = createHashRouter([
-    {
-      path: "/auth",
-      index: !user ? true : undefined,
-      element: <AuthForm/>
-    },
-    {
-      path: "/app",
-      index: user ? true : undefined,
-      element: <MainApp />
-    },
-    {
-      path: "/",
-      element: <MainSpinner />
-    },
-    {
-      path: "*",
-      element: <></>,
-    },
-  ]);
 
   return (
     <MantineProvider

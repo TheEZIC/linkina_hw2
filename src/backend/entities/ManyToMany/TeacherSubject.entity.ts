@@ -13,13 +13,11 @@ export class TeacherSubject {
   })
   teacherId: number;
 
-  @OneToOne(() => User, {
-    cascade: true,
-  })
-  @JoinColumn({
-    name: "teacherId",
-  })
-  teacher:  User;
+  // @OneToOne(() => User)
+  // @JoinColumn({
+  //   name: "teacherId",
+  // })
+  // teacher:  User;
 
   @PrimaryColumn({
     name: "subjectId",
@@ -28,11 +26,9 @@ export class TeacherSubject {
   })
   subjectId: number;
 
-  @OneToOne(() => Subject, {
-    cascade: true,
-  })
-  @JoinColumn({
-    name: "subjectId",
-  })
-  subject: Subject;
+  // @OneToOne(() => Subject)
+  // @JoinColumn({
+  //   name: "subjectId",
+  // })
+  // subject: Subject;
 }

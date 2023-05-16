@@ -13,11 +13,11 @@ export class StudentGroupSubject {
   })
   groupId: number;
 
-  @OneToOne(() => StudentGroup)
-  @JoinColumn({
-    name: "groupId",
-  })
-  group: StudentGroup;
+  // @OneToOne(() => StudentGroup)
+  // @JoinColumn({
+  //   name: "groupId",
+  // })
+  // group: StudentGroup;
 
   @PrimaryColumn({
     name: "subjectId",
@@ -26,9 +26,9 @@ export class StudentGroupSubject {
   })
   subjectId: number;
 
-  @OneToOne(() => Subject)
-  @JoinColumn({
-    name: "subjectId",
-  })
-  subject: Subject;
+  // @OneToOne(() => Subject)
+  // @JoinColumn({
+  //   name: "subjectId",
+  // })
+  // subject: Subject;
 }

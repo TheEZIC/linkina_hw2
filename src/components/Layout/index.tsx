@@ -2,7 +2,9 @@ import React, {FC, PropsWithChildren} from 'react';
 import {Container, createStyles, Flex} from "@mantine/core";
 import Header from "../Header";
 
-export type LayoutProps = PropsWithChildren;
+export type LayoutProps = {
+  renderBackBtn?: boolean;
+} & PropsWithChildren;
 
 const useStyles = createStyles((theme) => ({
   layout: {
@@ -17,12 +19,12 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Layout: FC<LayoutProps> = ({ children }) => {
+const Layout: FC<LayoutProps> = ({ children, renderBackBtn }) => {
   const {classes} = useStyles();
 
   return (
     <Flex className={classes.layout}>
-      <Header/>
+      <Header renderBackBtn={renderBackBtn}/>
       <Flex className={classes.container} px={"sm"}>
         {children}
       </Flex>

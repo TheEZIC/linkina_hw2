@@ -33,14 +33,12 @@ export class Subject {
   })
   semester: number;
 
-  @OneToMany(() => Task, (task) => task.subject)
+  @OneToMany(() => Task, (task) => task.subject, {
+    cascade: true,
+  })
   tasks: Task[];
 
-  @ManyToMany(() => User, {
-    cascade: true,
-    onUpdate: "CASCADE",
-    onDelete: "CASCADE",
-  })
+  @ManyToMany(() => User)
   @JoinTable({
     name: "TeacherSubject",
     joinColumn: {
@@ -54,11 +52,7 @@ export class Subject {
   })
   teachers: User[];
 
-  @ManyToMany(() => StudentGroup, {
-    cascade: true,
-    onUpdate: "CASCADE",
-    onDelete: "CASCADE",
-  })
+  @ManyToMany(() => StudentGroup)
   @JoinTable({
     name: "StudentGroupSubject",
     joinColumn: {
