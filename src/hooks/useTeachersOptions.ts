@@ -11,5 +11,5 @@ export const useTeachersOptions = () => {
     shallow
   );
 
-  return createAssignOptions<BaseUser>(teachers, createLabel);
+  return createAssignOptions<BaseUser>(teachers, createLabel, false);
 };

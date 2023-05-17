@@ -1,1 +1,1 @@
-export const APP_TITLE = "Система обучния";
+export const APP_TITLE = "Система обучения";

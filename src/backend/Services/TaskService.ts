@@ -3,6 +3,7 @@ import {repo} from "../Repo";
 import {User} from "../entities/User.entity";
 import {TaskResult} from "../entities/TaskResult.entity";
 import {database} from "../Database";
+import {UserRole} from "../types";
 
 export const taskService = {
   async create(subjectId: number, taskData: BaseTask) {
@@ -48,6 +49,15 @@ export const taskService = {
       await taskResultRepository.save(results);
     });
   },
+  update(taskId: number, taskData: BaseTask) {
+    const repository = repo.getForTask();
+    const task = repository.create({
+      id: taskId,
+      ...taskData,
+    });
+
+    return repository.save(task);
+  },
   getAllForSubject(subjectId: number) {
     console.log(subjectId, "subject id")
     const repository = repo.getForTask();
@@ -62,6 +72,61 @@ export const taskService = {
         results: true,
         subject: true,
       }
+    });
+  },
+  getForStudent(taskId: number, userId: number) {
+    const repository = repo.getForTask();
+
+    return repository.findOne({
+      where: {
+        id: taskId,
+        results: {
+          student: {
+            id: userId,
+            role: "student"
+          }
+        }
+      },
+      relations: {
+        results: {
+          teacher: true,
+          student: true,
+        },
+      },
+    });
+  },
+  getForTeacher(taskId: number, userId: number) {
+    const repository = repo.getForTask();
+
+    return repository.findOne({
+      where: {
+        id: taskId,
+        results: {
+          teacher: {
+            id: userId,
+            role: "teacher"
+          }
+        }
+      },
+      relations: {
+        results: {
+          teacher: true,
+          student: true,
+        },
+      },
+    });
+  },
+  async setMark(taskResultId: number, mark: number) {
+    const repository = repo.getForTaskResult();
+    const dbTaskResult = await repository.findOne({
+      where: {
+        id: taskResultId,
+      }
+    });
+
+    return repository.save({
+      ...dbTaskResult,
+      mark,
     });
   },
 };

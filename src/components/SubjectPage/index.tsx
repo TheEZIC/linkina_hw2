@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import Layout from "../Layout";
 import {Subject} from "../../backend/entities/Subject.entity";
-import {Button, Flex, Loader, Text, Title} from "@mantine/core";
+import {ActionIcon, Button, Flex, Loader, Text, Title, Tooltip} from "@mantine/core";
 import MainSpinner from "../MainSpinner";
 import {useUserStore} from "../../stores/userStore";
 import {shallow} from "zustand/shallow";
@@ -13,18 +13,20 @@ import {SaveEditCallback} from "../../types";
 import {BaseSubject} from "../../backend/types";
 import {BaseTask} from "../../backend/types/BaseTask";
 import DataTable from "../DataTable";
-
-type SubjectPageParams = {
-  id: string;
-};
+import {Task} from "../../backend/entities/Task.entity";
+import {FaArrowRight, FaPen} from "react-icons/fa";
+import {IdRouteParam} from "../../types/IdRouteParam";
 
 const SubjectPage = () => {
-  const params = useParams<SubjectPageParams>();
+  const navigate = useNavigate();
+  const params = useParams<IdRouteParam>();
   const subjectId = Number(params.id);
+
   const [subject, setSubject] = useState<Subject>(null);
   const [formTitle, setFormTitle] = useState<string>("");
   const [taskFormOpened, { open: openTaskForm, close: closeTaskForm }] = useDisclosure(false);
   const [onSaveCallback, setOnSaveCallback] = useState<SaveEditCallback<BaseTask>>();
+  const [currentTask, setCurrentTask] = useState<Task>();
 
   const [user] = useUserStore(
     (state) => [state.user],
@@ -46,21 +48,66 @@ const SubjectPage = () => {
       getSubject();
     };
 
+    setCurrentTask(undefined);
     setOnSaveCallback(() => callback);
     setFormTitle("Создать задачу");
     openTaskForm();
   };
 
-  const openEditForm = () => {
+  const openEditForm = (task: Task) => {
+    const callback: SaveEditCallback<BaseSubject> = async (subjectData) => {
+      await window.API.taskService.update(task.id, subjectData);
+      getSubject();
+    };
+
+    setCurrentTask(task);
+    setOnSaveCallback(() => callback);
     setFormTitle("Редактировать задачу");
     openTaskForm();
+  };
+
+  const navigateToTask = (taskId: number) => {
+    navigate(`/task/${taskId}`);
   };
 
   const renderTasks = useCallback(() => subject?.tasks.map((t) => (
     <tr>
       <td>{t.id}</td>
       <td>{t.title}</td>
-      <td></td>
+      <td>
+        <Flex justify={"flex-end"} gap={"sm"}>
+          {user.role === "teacher" && (
+            <>
+              <Tooltip
+                label={"Редактировать группу"}
+                withArrow={true}
+              >
+                <ActionIcon
+                  variant={"filled"}
+                  color={"orange.5"}
+                  onClick={() => openEditForm(t)}
+                >
+                  <FaPen/>
+                </ActionIcon>
+              </Tooltip>
+            </>
+          )}
+          <Flex justify={"flex-end"} gap={"sm"}>
+            <Tooltip
+              label={"Перейти"}
+              withArrow={true}
+            >
+              <ActionIcon
+                variant={"filled"}
+                color={"orange.5"}
+                onClick={() => navigateToTask(t.id)}
+              >
+                <FaArrowRight />
+              </ActionIcon>
+            </Tooltip>
+          </Flex>
+        </Flex>
+      </td>
     </tr>
   )), [subject]);
 
@@ -72,6 +119,8 @@ const SubjectPage = () => {
             <Title order={1}>{subject.title}</Title>
             <Title order={4}>Описание</Title>
             <Text>{subject.description}</Text>
+            <Title order={4}>Преподаватели</Title>
+            <Text>{subject.teachers.map((t) => `${t.lastName} ${t.firstName}`).join(", ")}</Text>
             <Title order={4}>Список заданий</Title>
             <DataTable renderFunction={renderTasks}>
               <tr>
@@ -91,7 +140,7 @@ const SubjectPage = () => {
       <TaskForm
         title={formTitle}
         opened={taskFormOpened}
-        data={undefined}
+        data={currentTask}
         close={closeTaskForm}
         onSave={onSaveCallback}
       />

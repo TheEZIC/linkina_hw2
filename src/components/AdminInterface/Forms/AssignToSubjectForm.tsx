@@ -62,7 +62,7 @@ const AssignToSubjectForm: FC<AssignToSubjectFormProps> = ({
 
   const form = useForm<AssignToSubjectFormType>();
 
-  const groupsOptions = useGroupsOptions(subject.semester);
+  const groupsOptions = useGroupsOptions(subject.semester, false);
   const teachersOptions = useTeachersOptions();
 
   useEffect(() => {

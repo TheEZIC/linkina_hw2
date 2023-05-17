@@ -5,7 +5,7 @@ import {StudentGroup} from "../backend/entities/StudentGroup.entity";
 
 const createLabel = (g: StudentGroup) => `${g.title} (${g.semester} семестр)`;
 
-export const useGroupsOptions = (semester?: number) => {
+export const useGroupsOptions = (semester?: number, addEmpty = true) => {
   let [groups] = useGroupsStore(
     (state) => [state.groups],
     shallow,
@@ -15,5 +15,5 @@ export const useGroupsOptions = (semester?: number) => {
     groups = groups.filter((g) => g.semester === semester);
   }
 
-  return createAssignOptions<StudentGroup>(groups, createLabel);
+  return createAssignOptions<StudentGroup>(groups, createLabel, addEmpty);
 };

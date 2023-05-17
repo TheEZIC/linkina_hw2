@@ -17,11 +17,10 @@ const MainApp = () => {
   const renderUI = () => {
     switch (user.role) {
       case "student":
-        return <></>;
       case "teacher":
         return <SubjectList />;
       case "admin":
-        return <AdminInterface />
+        return <AdminInterface />;
     }
   };
 

@@ -65,12 +65,6 @@ const AdminInterface = () => {
           Предметы
         </Tabs.Tab>
         <Tabs.Tab
-          value={"teachers"}
-          icon={<FaGraduationCap/>}
-        >
-          Учителя
-        </Tabs.Tab>
-        <Tabs.Tab
           value={"students"}
           icon={<MdBackpack />}
           rightSection={<TabBadge data={students} />}
@@ -85,10 +79,6 @@ const AdminInterface = () => {
 
       <Tabs.Panel value={"subjects"} pt="xs">
         <AdminSubjectsTab />
-      </Tabs.Panel>
-
-      <Tabs.Panel value={"teachers"} pt="xs">
-        Учителя
       </Tabs.Panel>
 
       <Tabs.Panel value={"students"} pt="xs">

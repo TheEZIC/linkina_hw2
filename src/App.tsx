@@ -1,37 +1,38 @@
 import React, {useEffect} from "react";
 import * as ReactDOM from "react-dom/client";
 import {MantineProvider} from '@mantine/core';
-import {createHashRouter} from "react-router-dom";
-import {RouterProvider, useNavigate} from "react-router";
+import {createMemoryRouter} from "react-router-dom";
+import {RouterProvider} from "react-router";
 import { APP_TITLE } from "./constants/AppTitle";
 import AuthForm from "./components/AuthForm";
 import MainSpinner from "./components/MainSpinner";
-import "./index.scss";
 import {useUserStore} from "./stores/userStore";
 import {shallow} from "zustand/shallow";
 import MainApp from "./components/MainApp";
 import SubjectPage from "./components/SubjectPage";
+import TaskPage from "./components/TaskPage/taskPage";
+import "./index.scss";
 
-const router = createHashRouter([
+const router = createMemoryRouter([
   {
     path: "/auth",
-    element: <AuthForm/>
+    element: <AuthForm/>,
   },
   {
     path: "/app",
-    element: <MainApp />
+    element: <MainApp />,
   },
   {
     path: "/subject/:id",
-    element: <SubjectPage />
+    element: <SubjectPage />,
   },
   {
     path: "/task/:id",
-    element: <span>task</span>
+    element: <TaskPage/>,
   },
   {
     path: "/",
-    element: <MainSpinner />
+    element: <MainSpinner />,
   },
   {
     path: "*",
@@ -47,9 +48,9 @@ const Providers = () => {
 
   useEffect(() => {
     if (user) {
-      window.location.href = "main_window#/app";
+      router.navigate("/app");
     } else {
-      window.location.href = "main_window#/auth";
+      router.navigate("/auth");
     }
   }, [user]);
 
@@ -78,6 +79,7 @@ const initDatabase = async () => {
 const initAppInterface = () => {
   const container = document.querySelector<HTMLDivElement>("#app")!;
   ReactDOM.createRoot(container).render(<Providers />);
+  //ReactDOM.createRoot(container).render(<span>123</span>);
 };
 
 const bootstrap = async () => {

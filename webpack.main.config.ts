@@ -1,4 +1,5 @@
 import type { Configuration } from 'webpack';
+import TerserPlugin from "terser-webpack-plugin";
 
 import { rules } from './webpack.rules';
 
@@ -15,4 +16,14 @@ export const mainConfig: Configuration = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          keep_classnames: true,
+          keep_fnames: true,
+        }
+      })
+    ]
+  }
 };

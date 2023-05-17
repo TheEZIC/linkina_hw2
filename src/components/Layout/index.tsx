@@ -11,11 +11,14 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
     flex: 1,
     flexDirection: "column",
+    overflow: "hidden",
   },
   container: {
     width: "100%",
     flexDirection: "column",
     flexGrow: 1,
+    overflowY: "auto",
+    overflowX: "hidden",
   },
 }));
 
